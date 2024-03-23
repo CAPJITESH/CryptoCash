@@ -54,12 +54,14 @@ dependencies:
   image_cropper: ^4.0.1
   firebase_core: ^2.27.0
   firebase_storage: ^11.6.9
-  intl: ^0.19.0
+  intl: ^0.18.1
   local_auth: ^2.2.0
   fluttertoast: ^8.2.4
   fl_chart: ^0.66.2
   cloud_firestore: ^4.15.9
   timeago: ^3.6.1
+  flutter_gemini: ^2.0.3
+  dash_chat_2: ^0.0.20
 
 dev_dependencies:
   flutter_test:

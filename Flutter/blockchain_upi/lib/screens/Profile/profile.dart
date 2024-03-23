@@ -1,5 +1,7 @@
-
+import 'package:blockchain_upi/constants.dart';
+import 'package:blockchain_upi/http/http.dart';
 import 'package:blockchain_upi/screens/Profile/profile_card.dart';
+import 'package:blockchain_upi/widgets/textbox.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +14,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  TextEditingController adhaarController = TextEditingController();
+
   @override
   void initState() {
     getData();
@@ -27,6 +31,69 @@ class _ProfileState extends State<Profile> {
     profile_photo = prefs.getString("image");
 
     setState(() {});
+  }
+
+  void _showKYCBottomSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 250,
+          padding: const EdgeInsets.all(20),
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Column(
+            children: [
+              Text(
+                "Enter Details for KYC",
+                style: TextStyle(
+                  color: purple1,
+                  fontSize: 21,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              TextBox(
+                controller: adhaarController,
+                hinttext: "Adhaar Card Number",
+                label: "",
+                obscureText: false,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  final res = await HttpApiCalls()
+                      .aadhaarVerification(adhaarController.text);
+                  print(res);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: purple1,
+                  minimumSize: const Size(double.infinity, 50),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -108,7 +175,7 @@ class _ProfileState extends State<Profile> {
                 height: 20,
               ),
               InkWell(
-                onTap: () {},
+                onTap: _showKYCBottomSheet,
                 child: ProfilePageCards(
                   image: 'assets/profile/kyc.png',
                   title: 'KYC',

@@ -1,6 +1,7 @@
 import 'package:blockchain_upi/constants.dart';
 import 'package:blockchain_upi/http/http.dart';
 import 'package:blockchain_upi/models/get_home_data.dart';
+import 'package:blockchain_upi/screens/Chatbot/mybot.dart';
 import 'package:blockchain_upi/screens/Home/transaction_card_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
@@ -335,7 +336,7 @@ class _HomePageState extends State<HomePage> {
                               isLast: length - 1 == i,
                             ),
                           const SizedBox(
-                            height: 15,
+                            height: 25,
                           ),
                           StreamBuilder(
                             stream: FirebaseFirestore.instance
@@ -569,7 +570,76 @@ class _HomePageState extends State<HomePage> {
                           )
                         ],
                       ),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const Chatbot(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: purple5,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 40,
+                              decoration: BoxDecoration(
+                                color: bg1,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.chat_bubble_outline_rounded,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              "Chat with AI",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            const Icon(
+                              Icons.chevron_right_outlined,
+                              color: Colors.black,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 25, right: 25),
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.5,
+                        height: 1,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                   ],
                 ),
               );

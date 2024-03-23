@@ -8,6 +8,7 @@ import 'package:blockchain_upi/screens/Home/home.dart';
 import 'package:blockchain_upi/screens/Profile/profile.dart';
 import 'package:blockchain_upi/screens/QR%20Page/qr_page.dart';
 import 'package:blockchain_upi/screens/Scanner/scanner.dart';
+import 'package:blockchain_upi/screens/Trading/trading.dart';
 import 'package:blockchain_upi/screens/awareness/courses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -261,7 +262,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             HomePage(),
             CommunityHome(),
             AccountPage(),
-            Courses(),
+            TradePage(),
             Profile()
             //CreateAccount(),
           ],

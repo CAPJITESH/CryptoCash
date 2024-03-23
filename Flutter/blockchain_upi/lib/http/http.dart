@@ -106,4 +106,68 @@ class HttpApiCalls {
       return {};
     }
   }
+
+  Future<dynamic> getBitcoin() async {
+    try {
+      print("Called function");
+
+      var response = await http.get(
+        Uri.parse(
+            'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd'),
+        headers: {
+          'x-cg-demo-api-key': 'CG-eiZFMa9jMAv61gfBwLH1fNiW',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        // print("Inside api call");
+        // print(response.body);
+        return (response.body);
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        return {};
+      }
+    } catch (error) {
+      print('Error sending request: $error');
+      return {};
+    }
+  }
+
+  Future<dynamic> aadhaarVerification(String uid) async {
+    try {
+      dynamic body = {
+        'txn_id': '17c6fa41-778f-49c1-a80a-cfaf7fae2fb8',
+        'consent': 'Y',
+        'uidnumber': uid,
+        'clientid': '222',
+        'method': 'uidvalidatev2',
+      };
+
+      // var encodedBody = jsonEncode(body);
+      // print(encodedBody);
+
+      var response = await http.post(
+        Uri.parse(
+            'https://verifyaadhaarnumber.p.rapidapi.com/Uidverifywebsvcv1/VerifyAadhaarNumber'),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'X-RapidAPI-Key':
+              '958e58a5d1msh7a2e65b0b52ea65p197eb2jsn9ce8f0122a99',
+          'X-RapidAPI-Host': 'verifyaadhaarnumber.p.rapidapi.com',
+        },
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        print(response.body);
+        return json.decode(response.body);
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+        return {};
+      }
+    } catch (error) {
+      print('Error sending request: $error');
+      return {};
+    }
+  }
 }

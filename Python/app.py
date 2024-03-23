@@ -69,7 +69,7 @@ def make_account():
         date = request.form['date']
 
         image = request.form['image']
-        # print(image)
+        print(image)
 
         acc2 = web3.eth.account.from_key(p2).address
 
@@ -205,4 +205,4 @@ def get_analysis(reason):
         return "others"
 
 if __name__ == '__main__':
-    app.run(debug=True, host="192.168.137.130")
+    app.run(debug=True, host="192.168.137.82")
