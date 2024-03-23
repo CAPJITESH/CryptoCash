@@ -88,7 +88,7 @@ class _TextBoxState extends State<TextBox> {
           child: TextFormField(
             controller: widget.controller,
             focusNode: _focusNode,
-            style: TextStyle(color: widget.readOnly ? grey1 : Colors.black),
+            style: TextStyle(color: widget.readOnly ? black2 : Colors.black),
             readOnly: widget.readOnly,
             initialValue: widget.value,
             onTap: widget.onTap,
@@ -104,7 +104,7 @@ class _TextBoxState extends State<TextBox> {
               counter: const SizedBox.shrink(),
 
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: grey1, width: 1),
+                borderSide: BorderSide(color: black2, width: 1),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(5),
                 ),
@@ -112,7 +112,7 @@ class _TextBoxState extends State<TextBox> {
               // error: SizedBox.shrink(),
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                    color: widget.readOnly ? grey1 : color1, width: 1),
+                    color: widget.readOnly ? black2 : purple2, width: 1),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(5),
                 ),
@@ -141,15 +141,16 @@ class _TextBoxState extends State<TextBox> {
                         widget.obscureText
                             ? Icons.visibility_off_rounded
                             : Icons.visibility_rounded,
-                        color: focused || !widget.obscureText ? color1 : grey1,
+                        color:
+                            focused || !widget.obscureText ? purple2 : black2,
                       ),
                     )
                   : Icon(
                       widget.icon,
-                      color: focused ? color1 : grey1,
+                      color: focused ? purple2 : black2,
                     ),
               labelStyle: TextStyle(
-                  color: focused && !widget.readOnly ? color1 : grey1,
+                  color: focused && !widget.readOnly ? purple2 : black2,
                   fontSize: widget.labelFontsize),
             ),
             obscureText: widget.obscureText,

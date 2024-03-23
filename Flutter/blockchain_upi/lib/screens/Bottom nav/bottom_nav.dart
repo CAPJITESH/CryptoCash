@@ -1,11 +1,17 @@
 import 'package:blockchain_upi/constants.dart';
+import 'package:blockchain_upi/screens/Account/account.dart';
 import 'package:blockchain_upi/screens/Bottom%20nav/bottom_nav_item.dart';
+import 'package:blockchain_upi/screens/Community/community_home.dart';
 import 'package:blockchain_upi/screens/Create%20account/create_account.dart';
+import 'package:blockchain_upi/screens/History/history.dart';
 import 'package:blockchain_upi/screens/Home/home.dart';
-import 'package:blockchain_upi/screens/Payment/payment.dart';
-import 'package:blockchain_upi/screens/QR%20screen/qr_page.dart';
+import 'package:blockchain_upi/screens/Profile/profile.dart';
+import 'package:blockchain_upi/screens/QR%20Page/qr_page.dart';
+import 'package:blockchain_upi/screens/Scanner/scanner.dart';
+import 'package:blockchain_upi/screens/awareness/courses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:toastification/toastification.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -23,7 +29,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   @override
   void initState() {
-    // TODO: implement initState
     var keyboardVisibilityController = KeyboardVisibilityController();
     keyboardVisibilityController.onChange.listen((bool visible) {
       setState(() {
@@ -31,7 +36,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
       });
     });
 
-    // TODO: implement initState
     super.initState();
   }
 
@@ -65,6 +69,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return Future.value(true);
   }
 
+  bool actionIcon = false;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -74,33 +80,137 @@ class _BottomNavBarState extends State<BottomNavBar> {
         // drawer: const DrawerWidget(),
         backgroundColor: Colors.white,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: keyboard || _pageIndex == 1
+        floatingActionButton: keyboard || _pageIndex == 2
             ? const SizedBox()
-            : FloatingActionButton(
-                backgroundColor: color1,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                onPressed: () => _setPage(1),
-                child: const Icon(
-                  Icons.add_rounded,
+            : SpeedDial(
+                backgroundColor: purple2,
+                overlayOpacity: 0,
+                spacing: 15,
+                // spaceBetweenChildren: 15,
+                onOpen: () {
+                  setState(() {
+                    actionIcon = true;
+                  });
+                },
+                onClose: () {
+                  setState(() {
+                    actionIcon = false;
+                  });
+                },
+                children: [
+                  SpeedDialChild(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelShadow: [],
+                    elevation: 0,
+                    backgroundColor: green3,
+                    labelBackgroundColor: green4,
+                    label: "Scan QR",
+                    labelStyle: TextStyle(
+                      color: green2,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const QRScanner(),
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.qr_code_scanner_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  SpeedDialChild(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelShadow: [],
+                    elevation: 0,
+                    backgroundColor: blue1,
+                    labelBackgroundColor: blue2,
+                    label: "Show QR",
+                    labelStyle: TextStyle(
+                      color: blue1,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const QRPage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.qr_code_2_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                  SpeedDialChild(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    labelShadow: [],
+                    elevation: 0,
+                    backgroundColor: blue1,
+                    labelBackgroundColor: blue2,
+                    label: "Show QR",
+                    labelStyle: TextStyle(
+                      color: blue1,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const QRPage(),
+                        ),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.qr_code_2_rounded,
+                      color: Colors.white,
+                      size: 28,
+                    ),
+                  ),
+                ],
+                child: Icon(
+                  actionIcon ? Icons.close_rounded : Icons.qr_code_2_rounded,
                   color: Colors.white,
-                  size: 25,
+                  size: 28,
                 ),
               ),
-        bottomNavigationBar: _pageIndex != 1
+        // : FloatingActionButton(
+        //     backgroundColor: purple2,
+        //     shape: RoundedRectangleBorder(
+        //       borderRadius: BorderRadius.circular(100),
+        //     ),
+        //     onPressed: () => _setPage(2),
+        //     child: const Icon(
+        //       Icons.qr_code_2_rounded,
+        //       color: Colors.white,
+        //       size: 28,
+        //     ),
+        //   ),
+        bottomNavigationBar: _pageIndex != 2
             ? BottomAppBar(
                 height: 55,
                 elevation: 50,
-                color: Colors.white,
+                color: bg1,
                 padding: EdgeInsets.zero,
-                notchMargin: 8,
-                shadowColor: grey1,
+                notchMargin: 6,
+                shadowColor: black2,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircularNotchedRectangle(),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    // color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     // boxShadow: [
                     //   BoxShadow(
@@ -112,19 +222,32 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     // ],
                   ),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       BottomNavItem(
                         name: "Home",
-                        iconData: Icons.home,
+                        iconData: "assets/home_nav.svg",
                         isSelected: _pageIndex == 0,
                         onTap: () => _setPage(0),
                       ),
+                      BottomNavItem(
+                        name: "Community",
+                        iconData: "assets/history_nav.svg",
+                        isSelected: _pageIndex == 1,
+                        onTap: () => _setPage(1),
+                      ),
                       const Expanded(child: SizedBox()),
                       BottomNavItem(
-                        name: "Payment",
-                        iconData: Icons.attach_money_sharp,
-                        isSelected: _pageIndex == 2,
-                        onTap: () => _setPage(2),
+                        name: "Courses",
+                        iconData: "assets/wallet_nav.svg",
+                        isSelected: _pageIndex == 3,
+                        onTap: () => _setPage(3),
+                      ),
+                      BottomNavItem(
+                        name: "Profile",
+                        iconData: "assets/more_nav.svg",
+                        isSelected: _pageIndex == 4,
+                        onTap: () => _setPage(4),
                       ),
                     ],
                   ),
@@ -136,8 +259,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
           controller: _pageController,
           children: const [
             HomePage(),
-            QRPage(),
-            PaymentPage(),
+            CommunityHome(),
+            AccountPage(),
+            Courses(),
+            Profile()
+            //CreateAccount(),
           ],
         ),
       ),

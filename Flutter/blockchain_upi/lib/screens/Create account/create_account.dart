@@ -1,4 +1,4 @@
-import 'package:blockchain_upi/createWallet.dart';
+import 'package:blockchain_upi/services/createWallet.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccount extends StatefulWidget {

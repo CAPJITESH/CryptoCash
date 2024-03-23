@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "254385141267",
+    "project_id": "blockchain-upi",
+    "storage_bucket": "blockchain-upi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:254385141267:android:498315bd2876f304b671e6",
+        "android_client_info": {
+          "package_name": "com.example.blockchain_upi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGquJnrC7WXLxYxbF8uyGQAhAvAqDgvwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
