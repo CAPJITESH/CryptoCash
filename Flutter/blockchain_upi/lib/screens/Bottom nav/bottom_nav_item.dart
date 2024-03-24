@@ -1,10 +1,11 @@
 import 'package:blockchain_upi/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavItem extends StatelessWidget {
-  final String? iconData;
+  final IconData? iconData;
   final VoidCallback? onTap;
   final bool? isSelected;
   final String name;
@@ -14,14 +15,6 @@ class BottomNavItem extends StatelessWidget {
       this.onTap,
       this.isSelected = false,
       required this.name});
-
-  String getImagePath() {
-    if (isSelected!) {
-      return iconData!.replaceAll('.svg', '_sel.svg');
-    } else {
-      return iconData!;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +31,10 @@ class BottomNavItem extends StatelessWidget {
             const SizedBox(
               height: 5,
             ),
-            SvgPicture.asset(
-              getImagePath(),
-              colorFilter: ColorFilter.mode(
-                isSelected! ? purple2 : black1,
-                BlendMode.srcIn,
-              ),
-              height: 23,
-              width: 23,
+            Icon(
+              iconData,
+              color: isSelected! ? purple2 : black1,
+              size: 25,
             ),
             Text(
               name,
@@ -54,7 +43,10 @@ class BottomNavItem extends StatelessWidget {
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
               ),
-            )
+            ),
+            const SizedBox(
+              height: 8,
+            ),
           ],
         ),
         onPressed: onTap!,

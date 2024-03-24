@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:blockchain_upi/constants.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 class Chatbot extends StatefulWidget {
@@ -64,6 +66,30 @@ class _ChatbotState extends State<Chatbot> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        backgroundColor: purple2,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(
+            Icons.arrow_back_rounded,
+            size: 28,
+            color: Colors.white,
+          ),
+        ),
+        title: Text(
+          'Accounts',
+          style: GoogleFonts.montserrat(
+            fontWeight: FontWeight.w700,
+            fontSize: 20,
+            color: Colors.white,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: DashChat(
         currentUser: myself,
         onSend: (ChatMessage m) {

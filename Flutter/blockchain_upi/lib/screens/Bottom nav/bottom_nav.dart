@@ -1,15 +1,14 @@
 import 'package:blockchain_upi/constants.dart';
-import 'package:blockchain_upi/screens/Account/account.dart';
+
 import 'package:blockchain_upi/screens/Bottom%20nav/bottom_nav_item.dart';
 import 'package:blockchain_upi/screens/Community/community_home.dart';
 import 'package:blockchain_upi/screens/Create%20account/create_account.dart';
-import 'package:blockchain_upi/screens/History/history.dart';
 import 'package:blockchain_upi/screens/Home/home.dart';
 import 'package:blockchain_upi/screens/Profile/profile.dart';
 import 'package:blockchain_upi/screens/QR%20Page/qr_page.dart';
 import 'package:blockchain_upi/screens/Scanner/scanner.dart';
 import 'package:blockchain_upi/screens/Trading/trading.dart';
-import 'package:blockchain_upi/screens/awareness/courses.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -84,6 +83,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
         floatingActionButton: keyboard || _pageIndex == 2
             ? const SizedBox()
             : SpeedDial(
+                buttonSize: const Size(60, 60),
                 backgroundColor: purple2,
                 overlayOpacity: 0,
                 spacing: 15,
@@ -153,33 +153,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       size: 28,
                     ),
                   ),
-                  SpeedDialChild(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    labelShadow: [],
-                    elevation: 0,
-                    backgroundColor: blue1,
-                    labelBackgroundColor: blue2,
-                    label: "Show QR",
-                    labelStyle: TextStyle(
-                      color: blue1,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 14,
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const QRPage(),
-                        ),
-                      );
-                    },
-                    child: const Icon(
-                      Icons.qr_code_2_rounded,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                  ),
                 ],
                 child: Icon(
                   actionIcon ? Icons.close_rounded : Icons.qr_code_2_rounded,
@@ -201,11 +174,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
         //   ),
         bottomNavigationBar: _pageIndex != 2
             ? BottomAppBar(
-                height: 55,
-                elevation: 50,
+                height: 60,
                 color: bg1,
                 padding: EdgeInsets.zero,
-                notchMargin: 6,
+                notchMargin: 8,
                 shadowColor: black2,
                 clipBehavior: Clip.antiAlias,
                 shape: const CircularNotchedRectangle(),
@@ -223,30 +195,30 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     // ],
                   ),
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       BottomNavItem(
                         name: "Home",
-                        iconData: "assets/home_nav.svg",
+                        iconData: Icons.home_rounded,
                         isSelected: _pageIndex == 0,
                         onTap: () => _setPage(0),
                       ),
                       BottomNavItem(
                         name: "Community",
-                        iconData: "assets/history_nav.svg",
+                        iconData: CupertinoIcons.person_2_fill,
                         isSelected: _pageIndex == 1,
                         onTap: () => _setPage(1),
                       ),
                       const Expanded(child: SizedBox()),
                       BottomNavItem(
-                        name: "Courses",
-                        iconData: "assets/wallet_nav.svg",
+                        name: "Trade",
+                        iconData: Icons.query_stats_rounded,
                         isSelected: _pageIndex == 3,
                         onTap: () => _setPage(3),
                       ),
                       BottomNavItem(
                         name: "Profile",
-                        iconData: "assets/more_nav.svg",
+                        iconData: Icons.person,
                         isSelected: _pageIndex == 4,
                         onTap: () => _setPage(4),
                       ),
@@ -261,7 +233,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: const [
             HomePage(),
             CommunityHome(),
-            AccountPage(),
+            CreateAccount(),
             TradePage(),
             Profile()
             //CreateAccount(),

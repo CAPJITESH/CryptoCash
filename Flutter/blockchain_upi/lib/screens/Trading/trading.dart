@@ -33,6 +33,9 @@ class _TradePageState extends State<TradePage> {
           price: res[i]['current_price'],
           change: res[i]['price_change_24h'],
           changePercentage: res[i]['price_change_percentage_24h'],
+          id: res[i]["id"],
+          high_24h: res[i]["high_24h"].toString(),
+          low_24h: res[i]["low_24h"].toString(),
         ));
       }
       //setState(() {});
@@ -78,6 +81,9 @@ class _TradePageState extends State<TradePage> {
             price: coinList[index].price.toDouble(),
             change: coinList[index].change.toDouble(),
             changePercentage: coinList[index].changePercentage.toDouble(),
+            id: coinList[index].id,
+            low_24h: coinList[index].low_24h,
+            high_24h: coinList[index].high_24h,
           );
         },
       ),

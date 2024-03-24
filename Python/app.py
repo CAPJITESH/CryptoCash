@@ -196,13 +196,56 @@ def get_analysis(reason):
         genai.configure(api_key=GOOGLE_API_KEY)
         model = genai.GenerativeModel('gemini-pro')
         
-        response = model.generate_content(f"Please categorize the transaction from the user's reason given below, and I will provide you with categories. Return only the category.\n\nReason for Transaction: {reason}\nCategories: food expenses, bills, travel expenses, others")
+        response = model.generate_content(f"Please categorize the transaction from the user's reason given below, and I will provide you with categories. Return only the category.\n\nReason for Transaction: {reason}\nCategories: food expenses, bills, medical, trading, others")
 
         return response.text.lower()     
             
     except Exception as e:
         print(e)
         return "others"
+
+@app.route('/buy_coin', methods=['POST'])
+def buy_coin():
+    try:
+        acc1 = request.form['acc1']
+        p1 = request.form['p1']
+        price = request.form['price']
+        tx_name = request.form['tx_name']
+        date = request.form['date']
+
+        eth = float(price) * 0.00030
+
+        nonce = web3.eth.get_transaction_count(acc1)
+        balance = web3.eth.get_balance(acc1)
+
+        # print(web3.from_wei(balance, 'ether'))
+        # print("hetet")
+    
+
+        if balance < web3.to_wei(eth, 'ether'):
+            return jsonify({'message': 'Insufficient balance for the transaction.'}), 400
+
+        tx = {
+            'nonce': nonce,
+            'to': master_address,
+            'value': web3.to_wei(eth, 'ether'),
+            'gas': 2000000,
+            'gasPrice': web3.to_wei('50', 'gwei'),
+        }
+
+        signed_tx = web3.eth.account.sign_transaction(tx, p1)
+        tx_hash = web3.eth.send_raw_transaction(signed_tx.rawTransaction)
+
+        response = get_analysis(tx_name)
+
+        transaction_hash = web3.to_hex(tx_hash)
+
+        target.functions.addTransaction(web3.to_bytes(tx_hash), acc1, master_address, web3.to_wei(eth, 'ether'), tx_name, date).transact({'from': master_address})
+
+        return jsonify({'transaction_hash': transaction_hash, "message" : "Transaction Succeessful", "analysis" : response}), 200
+    except Exception as e:
+        print("heerrreerer  ", e)
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
     app.run(debug=True, host="192.168.137.82")

@@ -1,6 +1,7 @@
 import 'package:blockchain_upi/constants.dart';
 import 'package:blockchain_upi/http/http.dart';
 import 'package:blockchain_upi/models/get_home_data.dart';
+import 'package:blockchain_upi/screens/History/history.dart';
 import 'package:blockchain_upi/screens/Chatbot/mybot.dart';
 import 'package:blockchain_upi/screens/Home/transaction_card_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   String? profileImage;
   String? userName;
   String? address;
-  int touchedIndex = -1;
 
   @override
   void initState() {
@@ -76,6 +76,20 @@ class _HomePageState extends State<HomePage> {
               //     };
               //   }
               // }
+              // print(res.toJson());
+
+              // Set<String> setData = {};
+
+              // for (var t in res.transaction!) {
+              //   if (t.from != userName) {
+              //     setData.add(t.from!);
+              //   }
+              //   if (t.to != userName) {
+              //     setData.add(t.to!);
+              //   }
+              // }
+              // final data = setData.toList();
+              // print(data);
 
               return SingleChildScrollView(
                 child: Column(
@@ -185,7 +199,7 @@ class _HomePageState extends State<HomePage> {
                                     height: 5,
                                   ),
                                   Text(
-                                    "${res.balance} ETH",
+                                    "${res.balance!.length >= 8 ? res.balance!.substring(0, 8) : res.balance!} ETH",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.w700,
@@ -312,7 +326,13 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => const HistoryPage(),
+                                    ),
+                                  );
+                                },
                                 style: ElevatedButton.styleFrom(
                                   padding: const EdgeInsets.all(0),
                                 ),
@@ -335,9 +355,7 @@ class _HomePageState extends State<HomePage> {
                               data: res.transaction![i],
                               isLast: length - 1 == i,
                             ),
-                          const SizedBox(
-                            height: 25,
-                          ),
+
                           StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection("users")
@@ -348,211 +366,231 @@ class _HomePageState extends State<HomePage> {
                                 final categories = snapshot.data!.data()
                                     as Map<String, dynamic>;
 
-                                return Row(
+                                if (categories.values
+                                    .every((value) => value == 0)) {
+                                  return const SizedBox.shrink();
+                                }
+
+                                return Column(
                                   children: [
-                                    SizedBox(
-                                      height: 165,
-                                      width: 165,
-                                      child: PieChart(
-                                        PieChartData(
-                                          centerSpaceRadius: 45,
-                                          sections: [
-                                            PieChartSectionData(
-                                              value: categories['bills']
-                                                  .toDouble(),
-                                              title: "Bills",
-                                              color: red2,
-                                              showTitle: true,
-                                              titleStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            PieChartSectionData(
-                                              value: categories['food expenses']
-                                                  .toDouble(),
-                                              title: "Food",
-                                              color: yellow1,
-                                              showTitle: true,
-                                              titleStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            PieChartSectionData(
-                                              value: categories['medical']
-                                                  .toDouble(),
-                                              title: "Medical Expenses",
-                                              showTitle: true,
-                                              color: voilet1,
-                                              titleStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
-                                            ),
-                                            PieChartSectionData(
-                                              value:
-                                                  categories['travel expenses']
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          height: 165,
+                                          width: 165,
+                                          child: PieChart(
+                                            PieChartData(
+                                              centerSpaceRadius: 45,
+                                              sections: [
+                                                PieChartSectionData(
+                                                  value: categories['bills']
                                                       .toDouble(),
-                                              title: "Travel Expenses",
-                                              color: green2,
-                                              showTitle: true,
-                                              titleStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
+                                                  title: "Bills",
+                                                  color: red2,
+                                                  showTitle: true,
+                                                  titleStyle: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                PieChartSectionData(
+                                                  value: categories[
+                                                          'food expenses']
+                                                      .toDouble(),
+                                                  title: "Food",
+                                                  color: yellow1,
+                                                  showTitle: true,
+                                                  titleStyle: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                PieChartSectionData(
+                                                  value: categories['medical']
+                                                      .toDouble(),
+                                                  title: "Medical Expenses",
+                                                  showTitle: true,
+                                                  color: voilet1,
+                                                  titleStyle: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                PieChartSectionData(
+                                                  value: categories['trading']
+                                                      .toDouble(),
+                                                  title: "trading",
+                                                  color: green2,
+                                                  showTitle: true,
+                                                  titleStyle: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                                PieChartSectionData(
+                                                  value: categories['others']
+                                                      .toDouble(),
+                                                  title: "Others",
+                                                  color: purple2,
+                                                  showTitle: true,
+                                                  titleStyle: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                            PieChartSectionData(
-                                              value: categories['others']
-                                                  .toDouble(),
-                                              title: "Others",
-                                              color: purple2,
-                                              showTitle: true,
-                                              titleStyle: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 15,
-                                              ),
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  color: red2,
+                                                ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                const Text(
+                                                  "Bills",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  color: yellow1,
+                                                ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                const Text(
+                                                  "Food",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  color: voilet1,
+                                                ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                const Text(
+                                                  "Medical Expenses",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  color: green2,
+                                                ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                const Text(
+                                                  "Trading",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 5,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Container(
+                                                  height: 25,
+                                                  width: 25,
+                                                  color: purple2,
+                                                ),
+                                                const SizedBox(
+                                                  width: 8,
+                                                ),
+                                                const Text(
+                                                  "Others",
+                                                  style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                )
+                                              ],
                                             ),
                                           ],
-                                        ),
-                                      ),
+                                        )
+                                      ],
                                     ),
                                     const SizedBox(
-                                      width: 20,
+                                      height: 15,
                                     ),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 25,
-                                              width: 25,
-                                              color: red2,
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            const Text(
-                                              "Bills",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 25,
-                                              width: 25,
-                                              color: yellow1,
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            const Text(
-                                              "Food",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 25,
-                                              width: 25,
-                                              color: voilet1,
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            const Text(
-                                              "Medical Expenses",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 25,
-                                              width: 25,
-                                              color: green2,
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            const Text(
-                                              "Travel Expenses",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 25,
-                                              width: 25,
-                                              color: purple2,
-                                            ),
-                                            const SizedBox(
-                                              width: 8,
-                                            ),
-                                            const Text(
-                                              "Others",
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            )
-                                          ],
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 );
                               } else if (snapshot.hasError) {
@@ -571,8 +609,75 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const Chatbot(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: purple5,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: bg1,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.chat_bubble_outline_rounded,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              "Accounts",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            const Icon(
+                              Icons.chevron_right_outlined,
+                              color: Colors.black,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                     const SizedBox(
-                      height: 15,
+                      height: 8,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 25, right: 25),
+                      child: Divider(
+                        color: Colors.grey,
+                        thickness: 0.5,
+                        height: 1,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 8,
                     ),
                     InkWell(
                       onTap: () {
@@ -585,6 +690,10 @@ class _HomePageState extends State<HomePage> {
                       child: Container(
                         height: 60,
                         margin: const EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                        ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           color: purple5,
@@ -594,7 +703,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             Container(
                               height: 40,
-                              width: 40,
+                              width: 50,
                               decoration: BoxDecoration(
                                 color: bg1,
                                 borderRadius: BorderRadius.circular(7),

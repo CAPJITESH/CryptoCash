@@ -152,7 +152,7 @@ class HttpApiCalls {
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
           'X-RapidAPI-Key':
-              '958e58a5d1msh7a2e65b0b52ea65p197eb2jsn9ce8f0122a99',
+              '69aa2e0c3emsh77b7847ffe16690p111ea4jsn0d15e5a13c01',
           'X-RapidAPI-Host': 'verifyaadhaarnumber.p.rapidapi.com',
         },
         body: body,
@@ -167,6 +167,44 @@ class HttpApiCalls {
       }
     } catch (error) {
       print('Error sending request: $error');
+      return {};
+    }
+  }
+
+  Future<Map<String, dynamic>> buyCoin(Map<String, dynamic> data) async {
+    var request = http.MultipartRequest('POST', Uri.parse('$apiUrl/buy_coin'));
+    request.fields.addAll({
+      "acc1": data['acc1'],
+      "p1": data['p1'],
+      "price": data['price'],
+      "tx_name": data['tx_name'],
+      "date": data['date'],
+    });
+
+    http.StreamedResponse response = await request.send();
+    var responsedata = await http.Response.fromStream(response);
+
+    if (response.statusCode == 200) {
+      print(responsedata.body);
+
+      final response = json.decode(responsedata.body) as Map<String, dynamic>;
+
+      await FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentReference userRef =
+            FirebaseFirestore.instance.collection('users').doc(data['acc1']);
+        DocumentSnapshot userSnapshot = await transaction.get(userRef);
+
+        if (userSnapshot.exists) {
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
+          int currentCount = userData[response['analysis']] ?? 0;
+          transaction.update(userRef, {response['analysis']: currentCount + 1});
+        }
+      });
+      return response;
+    } else {
+      print("error in transaction");
+      print(response.reasonPhrase);
       return {};
     }
   }

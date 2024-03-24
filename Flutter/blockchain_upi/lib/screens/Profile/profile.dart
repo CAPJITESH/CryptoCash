@@ -2,6 +2,7 @@ import 'package:blockchain_upi/constants.dart';
 import 'package:blockchain_upi/http/http.dart';
 import 'package:blockchain_upi/screens/Profile/profile_card.dart';
 import 'package:blockchain_upi/widgets/textbox.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,6 +16,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   TextEditingController adhaarController = TextEditingController();
+  bool verified = false;
 
   @override
   void initState() {
@@ -46,10 +48,10 @@ class _ProfileState extends State<Profile> {
           ),
           child: Column(
             children: [
-              Text(
+              const Text(
                 "Enter Details for KYC",
                 style: TextStyle(
-                  color: purple1,
+                  color: Color(0xFF270685),
                   fontSize: 21,
                   fontWeight: FontWeight.w600,
                 ),
@@ -71,10 +73,12 @@ class _ProfileState extends State<Profile> {
                 onPressed: () async {
                   final res = await HttpApiCalls()
                       .aadhaarVerification(adhaarController.text);
-                  print(res);
+                  print("Result from API: $res");
+                  verified = res;
+                  setState(() {});
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: purple1,
+                  backgroundColor: const Color(0xFF270685),
                   minimumSize: const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -102,7 +106,7 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: const Color(0xFF5732BF),
         title: Center(
           child: Text(
             'Profile',
@@ -174,13 +178,56 @@ class _ProfileState extends State<Profile> {
               const SizedBox(
                 height: 20,
               ),
-              InkWell(
-                onTap: _showKYCBottomSheet,
-                child: ProfilePageCards(
-                  image: 'assets/profile/kyc.png',
-                  title: 'KYC',
-                  onTap: () {},
-                ),
+              AbsorbPointer(
+                absorbing: verified,
+                child: InkWell(
+                    onTap: _showKYCBottomSheet,
+                    child: SizedBox(
+                      height: 60,
+                      child: Card(
+                        color: bg1,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 2,
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 20, right: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    "assets/profile/kyc.png",
+                                    height: 20,
+                                    width: 20,
+                                    color: Colors.black,
+                                  ),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
+                                  Text(
+                                    "KYC",
+                                    style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              if (verified)
+                                Image.asset("assets/profile/verified.png",
+                                    width: 28, height: 28, color: Colors.green),
+                            ],
+                          ),
+                        ),
+                      ),
+                    )),
               ),
               const SizedBox(
                 height: 10,

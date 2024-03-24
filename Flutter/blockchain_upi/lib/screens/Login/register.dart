@@ -216,7 +216,7 @@ class _RegisterState extends State<Register> {
                   Map<String, int> initialCategories = {
                     'food expenses': 0,
                     'bills': 0,
-                    'travel expenses': 0,
+                    'trading': 0,
                     'medical': 0,
                     'others': 0,
                   };
