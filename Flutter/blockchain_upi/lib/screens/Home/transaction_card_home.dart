@@ -83,8 +83,8 @@ class _TransactionCardHomeState extends State<TransactionCardHome> {
               const Spacer(),
               Text(
                 widget.data.myself!
-                    ? "+${widget.data.amt.toString().substring(0, 3)} ETH"
-                    : "-${widget.data.amt.toString().substring(0, 3)} ETH",
+                    ? "+${widget.data.amt!.length >= 8 ? widget.data.amt!.substring(0, 8) : widget.data.amt} ETH"
+                    : "-${widget.data.amt!.length >= 8 ? widget.data.amt!.substring(0, 8) : widget.data.amt} ETH",
                 style: TextStyle(
                   color: widget.data.myself! ? green2 : red3,
                   fontSize: 16,

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:blockchain_upi/constants.dart';
 import 'package:blockchain_upi/http/http.dart';
 import 'package:blockchain_upi/screens/Trading/coin_card.dart';
 import 'package:blockchain_upi/screens/Trading/coin_model.dart';
@@ -58,15 +59,15 @@ class _TradePageState extends State<TradePage> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        backgroundColor: Colors.grey[300],
         title: Text(
-          'Trading',
+          "Trading",
           style: TextStyle(
-            color: Colors.grey[900],
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+            color: purple1,
+            fontSize: 25,
+            fontWeight: FontWeight.w700,
           ),
         ),
+        centerTitle: true,
       ),
       body: ListView.builder(
         shrinkWrap: true,

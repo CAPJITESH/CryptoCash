@@ -1,6 +1,6 @@
 // //  flutter run | grep -v "D/EGL_emulation"
 
-// // // SPDX-License-Identifier: MIT
+///SPDX-License-Identifier: MIT
 // pragma solidity ^0.5.11;
 // pragma experimental ABIEncoderV2;
 
@@ -51,6 +51,8 @@
 //         transactionKeys.push(_txHash);
 //     }
 
+
+
 //     function getAllTransactionsForAccount(address _account) public view returns (Transaction[] memory) {
 //         uint256 count = 0;
 //         for (uint256 i = 0; i < transactionKeys.length; i++) {
@@ -68,5 +70,24 @@
 //         }
 //         return result;
 //     }
+    
+
+//     function getAllTransactions() public view returns (Transaction[] memory) {
+//         // uint256 count = 0;
+//         // for (uint256 i = 0; i < transactionKeys.length; i++) {
+//         //     if (transactions[transactionKeys[i]].sender == _account || transactions[transactionKeys[i]].receiver == _account) {
+//         //         count++;
+//         //     }
+//         // }
+//         Transaction[] memory result = new Transaction[](transactionKeys.length);
+//         uint256 index = 0;
+//         for (uint256 i = 0; i < transactionKeys.length; i++) {
+            
+//                 result[index] = transactions[transactionKeys[i]];
+//                 index++;
+//         }
+//         return result;
+//     }
 // }
+
 

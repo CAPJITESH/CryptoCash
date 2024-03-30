@@ -1,3 +1,4 @@
+import 'package:blockchain_upi/constants.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,17 @@ class DetailedComm extends StatelessWidget {
         children: [
           TextField(),
         ],
+      ),
+      appBar: AppBar(
+        title: Text(
+          "Community",
+          style: TextStyle(
+            color: purple1,
+            fontSize: 25,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
       ),
       body: SafeArea(
         child: SingleChildScrollView(

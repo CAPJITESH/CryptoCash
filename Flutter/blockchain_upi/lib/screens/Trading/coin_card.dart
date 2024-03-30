@@ -141,7 +141,7 @@ class CoinCard extends StatelessWidget {
                     ),
                     Text(
                       change.toDouble() < 0
-                          ? change.toDouble().toString().substring(0, 4)
+                          ? change.toDouble().toString().length >= 4 ? change.toDouble().toString().substring(0, 4) : change.toDouble().toString()
                           : '+${change.toDouble().toString().substring(0, 4)}',
                       style: TextStyle(
                         color:

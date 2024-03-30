@@ -87,6 +87,22 @@ class HttpApiCalls {
     return null;
   }
 
+  Future<HomeModel?> getTransactions() async {
+    var request =
+        http.MultipartRequest('POST', Uri.parse('$apiUrl/get_transactions'));
+
+    http.StreamedResponse response = await request.send();
+    var responsedata = await http.Response.fromStream(response);
+
+    if (response.statusCode == 200) {
+      // print(responsedata.body);
+      return HomeModelFromJson(responsedata.body);
+    } else {
+      print(response.reasonPhrase);
+    }
+    return null;
+  }
+
   Future<Map<String, dynamic>> getUserDetails(Map<String, dynamic> data) async {
     var request =
         http.MultipartRequest('POST', Uri.parse('$apiUrl/user_details'));
@@ -133,7 +149,7 @@ class HttpApiCalls {
     }
   }
 
-  Future<dynamic> aadhaarVerification(String uid) async {
+  Future<bool> aadhaarVerification(String uid) async {
     try {
       dynamic body = {
         'txn_id': '17c6fa41-778f-49c1-a80a-cfaf7fae2fb8',
@@ -143,31 +159,33 @@ class HttpApiCalls {
         'method': 'uidvalidatev2',
       };
 
-      // var encodedBody = jsonEncode(body);
-      // print(encodedBody);
-
       var response = await http.post(
         Uri.parse(
             'https://verifyaadhaarnumber.p.rapidapi.com/Uidverifywebsvcv1/VerifyAadhaarNumber'),
         headers: {
           'content-type': 'application/x-www-form-urlencoded',
           'X-RapidAPI-Key':
-              '69aa2e0c3emsh77b7847ffe16690p111ea4jsn0d15e5a13c01',
+              'af3c052c2bmsh68eed52c9c52bd5p1bc597jsnb3e78f4decd1',
           'X-RapidAPI-Host': 'verifyaadhaarnumber.p.rapidapi.com',
         },
         body: body,
       );
 
       if (response.statusCode == 200) {
-        print(response.body);
-        return json.decode(response.body);
+        dynamic responseData = json.decode(response.body);
+        if (responseData['Succeeded'] != null &&
+            responseData['Succeeded']['Verify_status'] == 'Uid is Valid') {
+          return true;
+        } else {
+          return false;
+        }
       } else {
         print('Request failed with status: ${response.statusCode}');
-        return {};
+        return false;
       }
     } catch (error) {
       print('Error sending request: $error');
-      return {};
+      return false;
     }
   }
 

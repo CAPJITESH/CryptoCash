@@ -30,4 +30,4 @@ Color voilet2 = const Color(0xFFF2E1F2);
 
 Color bg1 = const Color(0xFFEDEFF6);
 
-String apiUrl = "http://192.168.137.82:5000";
+String apiUrl = "http://192.168.0.107:5000";

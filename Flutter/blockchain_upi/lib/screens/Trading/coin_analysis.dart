@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:blockchain_upi/http/http.dart';
+import 'package:blockchain_upi/screens/Login/mfa.dart';
 import 'package:blockchain_upi/screens/Trading/chart_model.dart';
 import 'package:blockchain_upi/widgets/toast.dart';
 import 'package:flutter/material.dart';
@@ -356,24 +357,33 @@ class _SelectCoinState extends State<SelectCoin> {
                                   )
                                 : GestureDetector(
                                     onTap: () async {
-                                      setState(() {
-                                        loading = true;
-                                      });
-                                      SharedPreferences prefs =
-                                          await SharedPreferences.getInstance();
+                                      bool auth =
+                                          await Authentication.authetication();
+                                      print("Authentication: $auth");
 
-                                      final res = await HttpApiCalls().buyCoin({
-                                        "acc1":
-                                            prefs.getString("address") ?? "",
-                                        "p1": prefs.getString("private_key") ??
-                                            "",
-                                        "tx_name": "${widget.name} bought",
-                                        "price": "${widget.price}",
-                                        "date": DateTime.now().toString(),
-                                      });
-                                      print(res);
-                                      showToast(context, res['message'], 5);
-                                      Navigator.of(context).pop();
+                                      if (auth) {
+                                        setState(() {
+                                          loading = true;
+                                        });
+                                        SharedPreferences prefs =
+                                            await SharedPreferences
+                                                .getInstance();
+
+                                        final res =
+                                            await HttpApiCalls().buyCoin({
+                                          "acc1":
+                                              prefs.getString("address") ?? "",
+                                          "p1":
+                                              prefs.getString("private_key") ??
+                                                  "",
+                                          "tx_name": "Trading",
+                                          "price": "${widget.price}",
+                                          "date": DateTime.now().toString(),
+                                        });
+                                        print(res);
+                                        showToast(context, res['message'], 5);
+                                        Navigator.of(context).pop();
+                                      }
                                     },
                                     child: Expanded(
                                       flex: 5,

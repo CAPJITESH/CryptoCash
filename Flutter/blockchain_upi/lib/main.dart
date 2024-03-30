@@ -1,6 +1,7 @@
 import 'package:blockchain_upi/constants.dart';
 import 'package:blockchain_upi/screens/Bottom%20nav/bottom_nav.dart';
 import 'package:blockchain_upi/screens/Login/login.dart';
+import 'package:blockchain_upi/screens/Login/mfa.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -30,9 +31,12 @@ class _MyAppState extends State<MyApp> {
 
   SharedPreferences? prefs;
   bool? login;
+  bool auth = false;
   getData() async {
     prefs = await SharedPreferences.getInstance();
     login = prefs!.getBool("loginned");
+    auth = await Authentication.authetication();
+    print("Authentication: $auth");
     setState(() {});
   }
 
@@ -46,7 +50,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
         textTheme: GoogleFonts.sairaTextTheme(Theme.of(context).textTheme),
       ),
-      home: login != null && login! ? const BottomNavBar() : const Login(),
+      home: login != null ? const BottomNavBar() : const Login(),
     );
   }
 }

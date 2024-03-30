@@ -63,6 +63,7 @@ dependencies:
   flutter_gemini: ^2.0.3
   dash_chat_2: ^0.0.20
   syncfusion_flutter_charts: ^25.1.35
+  youtube_player_flutter: ^9.0.0
 
 dev_dependencies:
   flutter_test:

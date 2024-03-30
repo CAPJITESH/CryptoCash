@@ -1,5 +1,6 @@
 import 'package:blockchain_upi/constants.dart';
 import 'package:blockchain_upi/http/http.dart';
+import 'package:blockchain_upi/screens/Login/mfa.dart';
 import 'package:blockchain_upi/widgets/textbox.dart';
 import 'package:blockchain_upi/widgets/toast.dart';
 import 'package:flutter/material.dart';
@@ -165,7 +166,7 @@ class _PaymentPageState extends State<PaymentPage> {
                       obscureText: false,
                     ),
                     const SizedBox(
-                      height: 270,
+                      height: 150,
                     ),
                     loading
                         ? const Center(
@@ -173,25 +174,30 @@ class _PaymentPageState extends State<PaymentPage> {
                           )
                         : ElevatedButton(
                             onPressed: () async {
-                              setState(() {
-                                loading = true;
-                              });
-                              if (_reasonController.text.isEmpty) {
-                                _reasonController.text = "other";
-                              }
-                              SharedPreferences prefs =
-                                  await SharedPreferences.getInstance();
+                              bool auth = await Authentication.authetication();
+                              print("Authentication: $auth");
 
-                              final res = await HttpApiCalls().transaction({
-                                "acc1": prefs.getString("address") ?? "",
-                                "p1": prefs.getString("private_key") ?? "",
-                                'acc2': widget.receiverAddress,
-                                "tx_name": _reasonController.text,
-                                "eth": _ethController.text,
-                                "date": DateTime.now().toString(),
-                              });
-                              showToast(context, res['message'], 4);
-                              Navigator.of(context).pop();
+                              if (auth) {
+                                setState(() {
+                                  loading = true;
+                                });
+                                if (_reasonController.text.isEmpty) {
+                                  _reasonController.text = "other";
+                                }
+                                SharedPreferences prefs =
+                                    await SharedPreferences.getInstance();
+
+                                final res = await HttpApiCalls().transaction({
+                                  "acc1": prefs.getString("address") ?? "",
+                                  "p1": prefs.getString("private_key") ?? "",
+                                  'acc2': widget.receiverAddress,
+                                  "tx_name": _reasonController.text,
+                                  "eth": _ethController.text,
+                                  "date": DateTime.now().toString(),
+                                });
+                                showToast(context, res['message'], 4);
+                                Navigator.of(context).pop();
+                              }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: purple1,

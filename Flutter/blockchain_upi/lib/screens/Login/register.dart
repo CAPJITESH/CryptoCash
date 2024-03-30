@@ -27,6 +27,7 @@ class _RegisterState extends State<Register> {
   final TextEditingController passwordController = TextEditingController();
   File? _image;
   String imageBase64 = '';
+  bool loading = false;
   final ImageHelper _imageHelper = ImageHelper();
 
   @override
@@ -160,85 +161,98 @@ class _RegisterState extends State<Register> {
               const SizedBox(
                 height: 20,
               ),
-              MyButton(
-                ontap: () async {
-                  String uniqueFileName =
-                      DateTime.now().millisecondsSinceEpoch.toString();
+              loading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : MyButton(
+                      ontap: () async {
+                        setState(() {
+                          loading = true;
+                        });
 
-                  /*Step 2: Upload to Firebase storage*/
-                  //Install firebase_storage
-                  //Import the library
+                        String uniqueFileName =
+                            DateTime.now().millisecondsSinceEpoch.toString();
 
-                  //Get a reference to storage root
-                  Reference referenceRoot = FirebaseStorage.instance.ref();
-                  Reference referenceDirImages = referenceRoot.child('images');
+                        /*Step 2: Upload to Firebase storage*/
+                        //Install firebase_storage
+                        //Import the library
 
-                  //Create a reference for the image to be stored
-                  Reference referenceImageToUpload =
-                      referenceDirImages.child(uniqueFileName);
+                        //Get a reference to storage root
+                        Reference referenceRoot =
+                            FirebaseStorage.instance.ref();
+                        Reference referenceDirImages =
+                            referenceRoot.child('images');
 
-                  //Handle errors/success
-                  try {
-                    //Store the file
-                    await referenceImageToUpload.putFile(File(_image!.path));
-                    //Success: get the download URL
-                    imageBase64 = await referenceImageToUpload.getDownloadURL();
-                    print("Got Image");
+                        //Create a reference for the image to be stored
+                        Reference referenceImageToUpload =
+                            referenceDirImages.child(uniqueFileName);
 
-                    print(imageBase64);
-                  } catch (error) {
-                    //Some error occurre
-                    print("FICKE");
-                    print(error);
-                  }
-                  final nme = WalletProvider().generateMnemonic();
-                  final pri = await WalletProvider().getPrivateKey(nme);
-                  print("ehere");
-                  final res = await HttpApiCalls().makeAccount({
-                    "pri_key": pri,
-                    "name": usernameController.text,
-                    "image": imageBase64,
-                    "date": DateTime.now().toString(),
-                  });
+                        //Handle errors/success
+                        try {
+                          //Store the file
+                          await referenceImageToUpload
+                              .putFile(File(_image!.path));
+                          //Success: get the download URL
+                          imageBase64 =
+                              await referenceImageToUpload.getDownloadURL();
+                          print("Got Image");
 
-                  print(" Not here here");
+                          print(imageBase64);
+                        } catch (error) {
+                          //Some error occurre
+                          print("FICKE");
+                          print(error);
+                        }
+                        final nme = WalletProvider().generateMnemonic();
+                        final pri = await WalletProvider().getPrivateKey(nme);
+                        print("ehere");
+                        final res = await HttpApiCalls().makeAccount({
+                          "pri_key": pri,
+                          "name": usernameController.text,
+                          "image": imageBase64,
+                          "date": DateTime.now().toString(),
+                        });
 
-                  print(res);
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
+                        print(" Not here here");
 
-                  await prefs.setString("address", res['address']);
-                  await prefs.setString("private_key", res['private_key']);
-                  await prefs.setString("image", imageBase64);
-                  await prefs.setString("name", usernameController.text);
-                  await prefs.setBool("loginned", true);
+                        print(res);
+                        SharedPreferences prefs =
+                            await SharedPreferences.getInstance();
 
-                  Map<String, int> initialCategories = {
-                    'food expenses': 0,
-                    'bills': 0,
-                    'trading': 0,
-                    'medical': 0,
-                    'others': 0,
-                  };
+                        await prefs.setString("address", res['address']);
+                        await prefs.setString(
+                            "private_key", res['private_key']);
+                        await prefs.setString("image", imageBase64);
+                        await prefs.setString("name", usernameController.text);
+                        await prefs.setBool("loginned", true);
 
-                  await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(res['address'])
-                      .set(initialCategories);
+                        Map<String, int> initialCategories = {
+                          'food expenses': 0,
+                          'bills': 0,
+                          'finance': 0,
+                          'medical': 0,
+                          'others': 0,
+                        };
 
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (context) => const BottomNavBar(),
+                        await FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(res['address'])
+                            .set(initialCategories);
+
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const BottomNavBar(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      height: 50,
+                      width: double.infinity,
+                      title: 'Register',
+                      fontSize: 20,
+                      borderRadius: 10,
                     ),
-                    (route) => false,
-                  );
-                },
-                height: 50,
-                width: double.infinity,
-                title: 'Register',
-                fontSize: 20,
-                borderRadius: 10,
-              ),
               const SizedBox(
                 height: 20,
               ),

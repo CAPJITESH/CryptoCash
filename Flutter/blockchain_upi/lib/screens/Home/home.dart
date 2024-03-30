@@ -4,10 +4,13 @@ import 'package:blockchain_upi/models/get_home_data.dart';
 import 'package:blockchain_upi/screens/History/history.dart';
 import 'package:blockchain_upi/screens/Chatbot/mybot.dart';
 import 'package:blockchain_upi/screens/Home/transaction_card_home.dart';
+import 'package:blockchain_upi/screens/Transactions/transactions.dart';
+import 'package:blockchain_upi/screens/courses/coursescategories.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -156,10 +159,17 @@ class _HomePageState extends State<HomePage> {
                                 ),
                                 const Spacer(),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TransactionPage(),
+                                      ),
+                                    );
+                                  },
                                   padding: const EdgeInsets.all(0),
                                   icon: const Icon(
-                                    Icons.settings,
+                                    Icons.history,
                                     color: Colors.white,
                                     size: 32,
                                   ),
@@ -356,6 +366,20 @@ class _HomePageState extends State<HomePage> {
                               isLast: length - 1 == i,
                             ),
 
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            alignment: Alignment.centerLeft,
+                            padding: const EdgeInsets.all(10.0),
+                            child: const Text(
+                              "Analysis",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.left,
+                            ),
+                          ),
+
                           StreamBuilder(
                             stream: FirebaseFirestore.instance
                                 .collection("users")
@@ -374,7 +398,7 @@ class _HomePageState extends State<HomePage> {
                                 return Column(
                                   children: [
                                     const SizedBox(
-                                      height: 25,
+                                      height: 10,
                                     ),
                                     Row(
                                       children: [
@@ -423,9 +447,9 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 PieChartSectionData(
-                                                  value: categories['trading']
+                                                  value: categories['finance']
                                                       .toDouble(),
-                                                  title: "trading",
+                                                  title: "Finance",
                                                   color: green2,
                                                   showTitle: true,
                                                   titleStyle: const TextStyle(
@@ -451,7 +475,7 @@ class _HomePageState extends State<HomePage> {
                                           ),
                                         ),
                                         const SizedBox(
-                                          width: 20,
+                                          width: 15,
                                         ),
                                         Column(
                                           crossAxisAlignment:
@@ -546,7 +570,7 @@ class _HomePageState extends State<HomePage> {
                                                   width: 8,
                                                 ),
                                                 const Text(
-                                                  "Trading",
+                                                  "Finance",
                                                   style: TextStyle(
                                                     color: Colors.black,
                                                     fontSize: 14,
@@ -609,76 +633,76 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const Chatbot(),
-                          ),
-                        );
-                      },
-                      child: Container(
-                        height: 60,
-                        margin: const EdgeInsets.only(left: 20, right: 20),
-                        padding: const EdgeInsets.only(
-                          left: 15,
-                          right: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: purple5,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 40,
-                              width: 50,
-                              decoration: BoxDecoration(
-                                color: bg1,
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                              alignment: Alignment.center,
-                              child: const Icon(
-                                Icons.chat_bubble_outline_rounded,
-                                color: Colors.blue,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "Accounts",
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const Spacer(),
-                            const Icon(
-                              Icons.chevron_right_outlined,
-                              color: Colors.black,
-                              size: 25,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(left: 25, right: 25),
-                      child: Divider(
-                        color: Colors.grey,
-                        thickness: 0.5,
-                        height: 1,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    // InkWell(
+                    //   onTap: () {
+                    //     Navigator.of(context).push(
+                    //       MaterialPageRoute(
+                    //         builder: (context) => const Chatbot(),
+                    //       ),
+                    //     );
+                    //   },
+                    //   child: Container(
+                    //     height: 60,
+                    //     margin: const EdgeInsets.only(left: 20, right: 20),
+                    //     padding: const EdgeInsets.only(
+                    //       left: 15,
+                    //       right: 15,
+                    //     ),
+                    //     decoration: BoxDecoration(
+                    //       borderRadius: BorderRadius.circular(15),
+                    //       color: purple5,
+                    //     ),
+                    //     child: Row(
+                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                    //       children: [
+                    //         Container(
+                    //           height: 40,
+                    //           width: 50,
+                    //           decoration: BoxDecoration(
+                    //             color: bg1,
+                    //             borderRadius: BorderRadius.circular(7),
+                    //           ),
+                    //           alignment: Alignment.center,
+                    //           child: const Icon(
+                    //             Icons.chat_bubble_outline_rounded,
+                    //             color: Colors.blue,
+                    //           ),
+                    //         ),
+                    //         const SizedBox(
+                    //           width: 10,
+                    //         ),
+                    //         const Text(
+                    //           "Accounts",
+                    //           style: TextStyle(
+                    //             color: Colors.black,
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.w500,
+                    //           ),
+                    //         ),
+                    //         const Spacer(),
+                    //         const Icon(
+                    //           Icons.chevron_right_outlined,
+                    //           color: Colors.black,
+                    //           size: 25,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 8,
+                    // ),
+                    // const Padding(
+                    //   padding: EdgeInsets.only(left: 25, right: 25),
+                    //   child: Divider(
+                    //     color: Colors.grey,
+                    //     thickness: 0.5,
+                    //     height: 1,
+                    //   ),
+                    // ),
+                    // const SizedBox(
+                    //   height: 8,
+                    // ),
                     InkWell(
                       onTap: () {
                         Navigator.of(context).push(
@@ -735,6 +759,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
+
                     const Padding(
                       padding: EdgeInsets.only(left: 25, right: 25),
                       child: Divider(
@@ -745,6 +770,63 @@ class _HomePageState extends State<HomePage> {
                     ),
                     const SizedBox(
                       height: 8,
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => CoursesCategories(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 60,
+                        margin: const EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.only(
+                          left: 15,
+                          right: 15,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: purple5,
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 40,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                color: bg1,
+                                borderRadius: BorderRadius.circular(7),
+                              ),
+                              alignment: Alignment.center,
+                              child: const Icon(
+                                Icons.my_library_books,
+                                color: Colors.blue,
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Text(
+                              "Courses",
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            const Icon(
+                              Icons.chevron_right_outlined,
+                              color: Colors.black,
+                              size: 25,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                     const SizedBox(
                       height: 20,
