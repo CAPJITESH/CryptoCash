@@ -30,7 +30,7 @@ Traditional digital payment methods often face challenges related to security br
 
 ## Video Walkthrough
 
-https://github.com/user-attachments/assets/b7ddaa3b-a2a0-4b58-bbd4-e16a4b7a388d
+https://github.com/user-attachments/assets/6115a9d3-9889-4db7-a142-a72947b84e1b
 
 ## Installation
 
