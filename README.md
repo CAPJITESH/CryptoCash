@@ -4,38 +4,19 @@
 
 CryptoCash is a cutting-edge blockchain-based application designed to integrate blockchain technology with the Unified Payments Interface (UPI). This combination offers users a secure, transparent, and efficient platform for digital transactions, aiming to revolutionize the existing digital payment landscape.
 
-## Table of Contents
-
-1. [Introduction](#introduction)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Contributing](#contributing)
-6. [License](#license)
-7. [Acknowledgments](#acknowledgments)
-8. [Contact](#contact)
-
 ## Introduction
 
 In today's digital world, the demand for secure, transparent, and efficient payment solutions is more crucial than ever. CryptoCash addresses these needs by merging blockchain technology with UPI, providing a robust platform for digital transactions.
 
 ### Motivation
 
-Traditional digital payment methods often face challenges related to security breaches, lack of transparency, and high transaction costs. CryptoCash aims to overcome these issues by offering a decentralized solution that ensures data integrity, privacy, and cost-effectiveness.
+Traditional digital payment methods often face challenges related to security breaches, lack of transparency, and high transaction costs. CryptoCash aims to overcome these issues by offering a decentralized solution that ensures data integrity, privacy.
 
 ### Objectives
 
 - Simplify the use of blockchain technology for users.
 - Streamline the user experience.
 - Provide educational resources and robust security measures for user confidence.
-
-## Demo Video
-
-<video width="600" controls>
-  <source src="https://drive.google.com/file/d/1fUvay4gAEUS5lcR-_gxyTVxuC1WXUks4/view?usp=sharing" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
-
 
 ## Features
 
@@ -47,13 +28,16 @@ Traditional digital payment methods often face challenges related to security br
 - **Chatbot Assistance**: Specialized chatbot for crypto-related queries.
 - **Transaction Analysis**: Integration with Gemini API for detailed transaction analysis.
 
+## Video Walkthrough
+
+https://github.com/user-attachments/assets/b7ddaa3b-a2a0-4b58-bbd4-e16a4b7a388d
+
 ## Installation
 
 ### Prerequisites
 
 - Android 8.1+ or iOS 14+ device
-- [Flutter](https://flutter.dev/learn)
-- [Java Development Kit (JDK)](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [Flutter](https://docs.flutter.dev/get-started/install)
 - [Python](https://www.python.org/)
 - [Ganache](https://www.trufflesuite.com/ganache)
 
@@ -62,7 +46,7 @@ Traditional digital payment methods often face challenges related to security br
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/CryptoCash.git
+   git clone https://github.com/CAPJITESH/CryptoCash.git
    ```
 
 2. Navigate to the project directory:
