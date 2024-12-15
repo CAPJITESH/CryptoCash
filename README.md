@@ -30,7 +30,7 @@ Traditional digital payment methods often face challenges related to security br
 
 ## Video Walkthrough
 
-https://github.com/user-attachments/assets/6115a9d3-9889-4db7-a142-a72947b84e1b
+[![Video Walkthrough](https://github.com/CAPJITESH/CryptoCash/blob/main/logo.jpg)](https://www.youtube.com/watch?v=AUcMRzJXeQg)
 
 ## Installation
 
